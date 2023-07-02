@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import net.miniproject.TodoWiz.Model.ToDoModel;
 
@@ -93,5 +94,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void deleteTask(int id){
         db.delete(TODO_TABLE, ID + "= ?", new String[] {String.valueOf(id)});
+    }
+
+    public void printDatabaseContents() {
+        List<ToDoModel> tasks = getAllTasks();
+
+        for (ToDoModel task : tasks) {
+            Log.d("DatabaseHandler", "Task ID: " + task.getId());
+            Log.d("DatabaseHandler", "Task: " + task.getTask());
+            Log.d("DatabaseHandler", "Status: " + task.getStatus());
+            Log.d("DatabaseHandler", "----------------------");
+        }
     }
 }
