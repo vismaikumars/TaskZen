@@ -52,7 +52,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(STATUS, 0);
         try {
             db.insert(TODO_TABLE, null, cv);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
 
             Log.e("DatabaseHandler", "Error inserting task: " + e.getMessage());
         }
@@ -92,17 +93,33 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void updateStatus(int id, int status){
         ContentValues cv = new ContentValues();
         cv.put(STATUS, status);
-        db.update(TODO_TABLE, cv, ID + "= ?", new String[] {String.valueOf(id)});
+        try {
+            db.update(TODO_TABLE, cv, ID + "= ?", new String[]{String.valueOf(id)});
+        }
+        catch (Exception e) {
+            Log.e("DatabaseHandler", "Error updating task status: " + e.getMessage());
+        }
     }
 
     public void updateTask(int id, String task) {
         ContentValues cv = new ContentValues();
         cv.put(TASK, task);
-        db.update(TODO_TABLE, cv, ID + "= ?", new String[] {String.valueOf(id)});
+        try {
+            db.update(TODO_TABLE, cv, ID + "= ?", new String[]{String.valueOf(id)});
+        }
+        catch (Exception e) {
+            Log.e("DatabaseHandler", "Error updating task: " + e.getMessage());
+        }
     }
 
     public void deleteTask(int id){
-        db.delete(TODO_TABLE, ID + "= ?", new String[] {String.valueOf(id)});
+        try {
+            db.delete(TODO_TABLE, ID + "= ?", new String[]{String.valueOf(id)});
+        }
+        catch (Exception e) {
+            // Handle delete error
+            Log.e("DatabaseHandler", "Error deleting task: " + e.getMessage());
+        }
     }
 
     public void printDatabaseContents() {
