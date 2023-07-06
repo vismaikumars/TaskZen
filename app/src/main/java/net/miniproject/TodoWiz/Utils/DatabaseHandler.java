@@ -50,7 +50,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(TASK, task.getTask());
         cv.put(STATUS, 0);
-        db.insert(TODO_TABLE, null, cv);
+        try {
+            db.insert(TODO_TABLE, null, cv);
+        } catch (Exception e) {
+
+            Log.e("DatabaseHandler", "Error inserting task: " + e.getMessage());
+        }
     }
 
     public List<ToDoModel> getAllTasks(){
@@ -71,6 +76,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     while(cur.moveToNext());
                 }
             }
+        }
+        catch (Exception e) {
+            //for query error
+            Log.e("DatabaseHandler", "Error retrieving tasks: " + e.getMessage());
         }
         finally {
             db.endTransaction();
